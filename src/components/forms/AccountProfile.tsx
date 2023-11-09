@@ -24,7 +24,7 @@ interface Props {
 }
 
 const schema = yup.object({
-  profile_photo: yup.string().url().trim(), //trim for empty test
+  profile_photo: yup.string(), //trim for empty test
   name: yup.string().min(3).max(30),
   username: yup.string().min(3).max(30),
   bio: yup.string().min(3).max(1000),
@@ -104,17 +104,16 @@ export default function AccountProfile({ user, btnTitle }: Props){
   return (
     <Form
       onSubmit={formik.handleSubmit}
-      className={`flex flex-col justify-start gap-10`}>
-      aria-disabled={formik.isSubmitting}
+      className={`flex flex-col justify-start gap-10`}
+      aria-disabled={formik.isSubmitting}>
       <Form.Group className={`flex items-center gap-4`}>
         <Form.Label className={`account-form_image-label`}>
           {formik.values.profile_photo ? (
-            <Image
+            <img
               src={formik.values.profile_photo}
               alt={`profile_icon`}
               width={96}
               height={96}
-              priority
               className={`rounded-full object-contain`}
             />
           ) : (

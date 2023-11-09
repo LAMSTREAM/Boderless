@@ -32,7 +32,7 @@ export default async function Page({ params }: {params: {id: string}}){
         bio={userInfo.bio}
       >
         {params.id === user.id && (
-          <Button href={`/onboarding`}>
+          <Button href={`/profile/edit`}>
             Edit Profile
           </Button>
         )}
