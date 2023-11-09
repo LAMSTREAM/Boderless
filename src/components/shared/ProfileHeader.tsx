@@ -9,7 +9,7 @@ type Props = {
   imageUrl: string;
   bio: string;
   type?: 'User' | 'Community';
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function ProfileHeader({
@@ -42,9 +42,12 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        <div className={`p-4 h-auto min-w-[74px] rounded-lg bg-primary-500 text-heading4-medium text-light-1 !important`} >
-          {children}
-        </div>
+        {children && (
+          <div className={`p-4 h-auto min-w-[74px] rounded-lg bg-primary-500 text-heading4-medium text-light-1 !important`} >
+            {children}
+          </div>)
+        }
+
       </div>
 
       <p className={`mt-6 max-w-lg text-base-regular text-light-2`}>

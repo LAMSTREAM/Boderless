@@ -6,6 +6,7 @@ import Image from "next/image";
 import {ChangeEvent, useId, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {usePathname, useRouter} from "next/navigation";
+import {useUser} from "@clerk/nextjs";
 
 import {isBase64Image} from "@/src/lib/utils";
 import {useUploadThing} from "@/src/lib/uploadthing";
@@ -35,6 +36,7 @@ export default function AccountProfile({ user, btnTitle }: Props){
   const {startUpload} = useUploadThing("media");
   const router = useRouter();
   const path = usePathname();
+  const {user: u} = useUser();
 
   const imageId = useId();
   const nameId = useId();
@@ -61,6 +63,9 @@ export default function AccountProfile({ user, btnTitle }: Props){
       image: values.profile_photo,
       path: path,
     })
+
+    //upload profile image to clerk
+    await u?.setProfileImage({ file: files[0] }).then(() => u.reload());
 
     if(path === `/profile/edit`){
       router.back();
@@ -109,11 +114,12 @@ export default function AccountProfile({ user, btnTitle }: Props){
       <Form.Group className={`flex items-center gap-4`}>
         <Form.Label className={`account-form_image-label`}>
           {formik.values.profile_photo ? (
-            <img
+            <Image
               src={formik.values.profile_photo}
               alt={`profile_icon`}
               width={96}
               height={96}
+              priority
               className={`rounded-full object-contain`}
             />
           ) : (
